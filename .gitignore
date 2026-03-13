@@ -1,0 +1,32 @@
+# Compiled files
+target/
+*.class
+
+# IDE files
+.idea/
+*.iml
+*.iws
+*.ipr
+.settings/
+.project
+.classpath
+.factorypath
+.springBeans
+
+# Logs
+logs/
+*.log
+
+# Build tools
+.mvn/
+mvnw
+mvnw.cmd
+
+# Environment
+application-local.properties
+application-dev.properties
+application-prod.properties
+*.orig
+
+# Uploaded files (if you don't want to commit them)
+uploads/
