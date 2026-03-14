@@ -45,8 +45,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-        // Allow all necessary HTTP methods, including PATCH
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://localhost:3000",
+                "https://ketrams-v2-frontend.vercel.app"   // <-- replace with your actual Vercel domain
+        ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);

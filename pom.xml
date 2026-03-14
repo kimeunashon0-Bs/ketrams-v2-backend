@@ -58,13 +58,21 @@
             <version>9.2.5</version>
         </dependency>
 
-        <!-- SQL Server Driver -->
+        <!-- PostgreSQL Driver (for Railway) -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- SQL Server Driver (commented out – keep for local reference)
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
             <version>12.4.0.jre11</version>
             <scope>runtime</scope>
         </dependency>
+        -->
 
         <!-- Lombok -->
         <dependency>
