@@ -39,7 +39,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
-        return publicPaths.stream().anyMatch(path::startsWith);
+        boolean skip = publicPaths.stream().anyMatch(path::startsWith);
+        // Log the decision (will appear in Render logs)
+        System.out.println("JwtFilter - path: " + path + ", skip: " + skip);
+        return skip;
     }
 
     @Override
