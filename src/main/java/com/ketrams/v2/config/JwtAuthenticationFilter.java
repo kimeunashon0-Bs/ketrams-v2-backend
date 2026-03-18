@@ -27,7 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
-    // List of public paths that should bypass JWT authentication
+    // Public paths that should bypass JWT authentication
     private final List<String> publicPaths = Arrays.asList(
             "/api/auth/",
             "/api/public/",
@@ -56,7 +56,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try {
                 username = jwtUtil.extractUsername(jwt);
             } catch (Exception e) {
-                // Log error but continue – we simply won't set authentication
                 logger.error("Could not extract username from JWT", e);
             }
         }
