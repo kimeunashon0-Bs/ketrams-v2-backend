@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
+//@Component
 public class DataLoader implements CommandLineRunner {
 
     @Autowired
@@ -33,7 +33,7 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Load sub-counties and wards if empty
+        // Load sub-counties and wards if  empty
         if (subCountyRepository.count() == 0) {
             loadSubCountiesAndWards();
         }

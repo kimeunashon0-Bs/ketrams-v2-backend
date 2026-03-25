@@ -2,6 +2,8 @@
 target/
 *.class
 
+
+.env
 # IDE files
 .idea/
 *.iml
@@ -29,4 +31,4 @@ application-prod.properties
 *.orig
 
 # Uploaded files (if you don't want to commit them)
-uploads/
+uploads/.
