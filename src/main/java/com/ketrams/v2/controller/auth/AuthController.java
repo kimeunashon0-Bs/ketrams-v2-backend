@@ -91,6 +91,18 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success("OTP verified. Please set your password.", null));
     }
 
+    @PostMapping("/verify-reset-otp")
+    public ResponseEntity<ApiResponse> verifyResetOtp(@Valid @RequestBody OtpVerifyDto dto) {
+        boolean verified = otpService.verifyOtp(dto.getPhoneNumber(), dto.getOtpCode());
+        if (!verified) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(ApiResponse.error("Invalid or expired OTP"));
+        }
+
+        // No check for existing user – allow reset even if fully registered
+        return ResponseEntity.ok(ApiResponse.success("OTP verified for password reset", null));
+    }
+
     @PostMapping("/set-password")
     public ResponseEntity<ApiResponse> setPassword(@Valid @RequestBody SetPasswordDto dto) {
         AppUser user = appUserRepository.findByPhoneNumber(dto.getPhoneNumber())
@@ -147,8 +159,24 @@ public class AuthController {
         }
 
         OtpRequest otpRequest = otpService.createOtpRequest(dto.getPhoneNumber());
-        otpService.sendOtp(dto.getPhoneNumber(), null, "PHONE", otpRequest.getOtpCode());
+
+        // Use the email from request if provided, otherwise fallback to the user's stored email
+        String email = dto.getEmail();
+        if (email == null || email.isEmpty()) {
+            email = user.getEmail();
+        }
+
+        otpService.sendOtp(dto.getPhoneNumber(), email, dto.getDeliveryMethod(), otpRequest.getOtpCode());
         return ResponseEntity.ok(ApiResponse.success("OTP sent for password reset", null));
     }
-}
 
+    @PostMapping("/reset-password")
+    public ResponseEntity<ApiResponse> resetPassword(@Valid @RequestBody ResetPasswordDto dto) {
+        AppUser user = appUserRepository.findByPhoneNumber(dto.getPhoneNumber())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setPasswordHash(passwordEncoder.encode(dto.getNewPassword()));
+        appUserRepository.save(user);
+        return ResponseEntity.ok(ApiResponse.success("Password reset successfully", null));
+    }
+}
